@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,9 +56,10 @@ public class ChildActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(this, "data added to DB", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.read_btn:
-                final LinearLayout mainLayout = new LinearLayout(getApplicationContext());
-                mainLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-                mainLayout.setOrientation(LinearLayout.VERTICAL);
+                setContentView(R.layout.database_show);
+                final LinearLayout mainLayout = findViewById(R.id.main_layout);
+                //mainLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                //mainLayout.setOrientation(LinearLayout.VERTICAL);
                 Cursor c = db.query("mytable", null, null, null, null, null, null);
                 if (c.moveToNext()) {
                     int idColIndex = c.getColumnIndex("id");
@@ -110,7 +112,6 @@ public class ChildActivity extends AppCompatActivity implements View.OnClickList
                 }
 
                 c.close();
-                setContentView(mainLayout);
                 break;
         }
         dbHelper.close();
