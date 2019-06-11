@@ -19,7 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("create table mytable ("
                 + "id integer primary key autoincrement,"
                 + "name text,"
-                + "email text,"
+                + "lastName text,"
                 + "login text" + ");");
     }
 

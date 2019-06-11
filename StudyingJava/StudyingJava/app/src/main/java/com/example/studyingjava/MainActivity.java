@@ -320,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (c.moveToNext()) {
                     int idColIndex = c.getColumnIndex("id");
                     int nameColIndex = c.getColumnIndex("name");
-                    int emailColIndex = c.getColumnIndex("email");
+                    int emailColIndex = c.getColumnIndex("lastName");
 
                     do {
                         Log.d(LOG_TAG, "ID = " + c.getInt(idColIndex) +
