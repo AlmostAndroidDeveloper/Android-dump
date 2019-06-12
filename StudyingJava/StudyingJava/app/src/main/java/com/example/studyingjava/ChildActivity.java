@@ -150,17 +150,19 @@ public class ChildActivity extends AppCompatActivity implements View.OnClickList
             nameText.setText(c.getString(nameColIndex));
             lastNameText.setText(c.getString(lastNameColIndex));
             loginText.setText(c.getString(loginColIndex));
-            LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             textParams.weight = 1f;
             idText.setLayoutParams(textParams);
             nameText.setLayoutParams(textParams);
             lastNameText.setLayoutParams(textParams);
             loginText.setLayoutParams(textParams);
+            idText.setPadding(10,10,0,0);
             layoutToAdd.setId(c.getInt(idColIndex));
             layoutToAdd.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 100));
-            layoutToAdd.setBackgroundColor(Color.parseColor("#00ffaa"));
+            layoutToAdd.setBackgroundResource(R.drawable.text_columns_shape);
             layoutToAdd.setOrientation(LinearLayout.HORIZONTAL);
-            layoutToAdd.setOnClickListener(new View.OnClickListener() {
+            idText.setBackgroundResource(R.drawable.text_id_shape);
+            idText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (String.valueOf(layoutToAdd.getId()).equalsIgnoreCase("")) {
