@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Перевести число"
+        android:textSize="20sp"
+        android:layout_margin="25dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edit_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:hint="Введите число сюда"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/txt"
+        android:layout_margin="25dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Из"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/from_pick"
+        app:layout_constraintTop_toTopOf="@id/from_pick"
+        app:layout_constraintBottom_toBottomOf="@id/from_pick"/>
+
+    <NumberPicker
+        android:id="@+id/from_pick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/to_pick"
+        app:layout_constraintTop_toBottomOf="@id/edit_number"
+        android:layout_margin="25dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="в"
+        android:textStyle="bold"
+        app:layout_constraintRight_toLeftOf="@id/to_pick"
+        app:layout_constraintLeft_toRightOf="@id/from_pick"
+        app:layout_constraintTop_toTopOf="@id/from_pick"
+        app:layout_constraintBottom_toBottomOf="@id/from_pick"/>
+
+    <NumberPicker
+        android:id="@+id/to_pick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/from_pick"
+        app:layout_constraintTop_toBottomOf="@id/edit_number"
+        android:layout_margin="25dp"
+        />
+
+    <TextView
+        android:id="@+id/result_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/from_pick"
+        android:textSize="20sp"
+        android:layout_margin="25dp"
+        android:gravity="center"/>
+
+
+
+
+</android.support.constraint.ConstraintLayout>

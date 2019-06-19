@@ -41,30 +41,42 @@ public class MainActivity extends AppCompatActivity {
     private void makeTasksList(Cursor c) {
         final LinearLayout mainLayout = findViewById(R.id.main_layout);
         mainLayout.removeAllViews();
+
         do {
             final View layout = getLayoutInflater().inflate(R.layout.one_task_layout, null, false);
-            TextView id = layout.findViewById(R.id.id_text);
-            TextView text = layout.findViewById(R.id.task_text);
-            Button delBtn = layout.findViewById(R.id.del_btn);
             layout.setId(c.getInt(c.getColumnIndex("id")));
-            id.setText(String.valueOf(c.getInt(c.getColumnIndex("id"))));
-            text.setText(c.getString(c.getColumnIndex("task")));
-            delBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (String.valueOf(layout.getId()).equalsIgnoreCase("")) {
-                        return;
-                    }
-                    SQLiteDatabase db = dbhelper.getWritableDatabase();
-                    db.delete("tasks", "id = " + layout.getId(), new String[]{});
-                    mainLayout.removeView(layout);
-                    db.close();
-                }
-            });
-            mainLayout.addView(layout);
 
-        } while (c.moveToNext());
+            TextView id = makeTextView(layout, R.id.id_text, String.valueOf(c.getInt(c.getColumnIndex("id"))));
+            TextView text = makeTextView(layout, R.id.task_text, c.getString(c.getColumnIndex("task")));
+            Button delBtn = makeDeleteButton(mainLayout, layout, R.id.del_btn);
+
+            mainLayout.addView(layout);
+        }
+        while (c.moveToNext());
         c.close();
+    }
+
+    private Button makeDeleteButton(final LinearLayout mainLayout, final View layout, int viewId){
+        Button button = layout.findViewById(viewId);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (String.valueOf(layout.getId()).equalsIgnoreCase("")) {
+                    return;
+                }
+                SQLiteDatabase db = dbhelper.getWritableDatabase();
+                db.delete("tasks", "id = " + layout.getId(), new String[]{});
+                mainLayout.removeView(layout);
+                db.close();
+            }
+        });
+        return button;
+    }
+
+    private TextView makeTextView(View layout, int viewId, String textToSet) {
+        TextView textView = layout.findViewById(viewId);
+        textView.setText(textToSet);
+        return textView;
     }
 
     private void setListenerForAddBtn() {
@@ -77,33 +89,6 @@ public class MainActivity extends AppCompatActivity {
                         1);
             }
         });
-    }
-
-    private void makeTaskAddDialog() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        final EditText enterTask = new EditText(getApplicationContext());
-        enterTask.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                imm.showSoftInput(enterTask, InputMethodManager.SHOW_FORCED);
-            }
-        });
-        alertDialog.setTitle("Что нужно сделать?");
-        alertDialog.setView(enterTask);
-        alertDialog.setPositiveButton("добавить", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        alertDialog.setNegativeButton("отмена", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        alertDialog.create().show();
     }
 
     @Override
