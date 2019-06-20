@@ -33,7 +33,7 @@ TextView resultText;
                 ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("", resultText.getText().toString());
                 clipboard.setPrimaryClip(clip);
-                Toast.makeText(context, "Text copied",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Текст скопирован в буфер обмена",Toast.LENGTH_SHORT).show();
             }
         });
     }
