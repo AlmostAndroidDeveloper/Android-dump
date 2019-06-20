@@ -27,17 +27,6 @@
         app:layout_constraintTop_toBottomOf="@id/txt"
         android:layout_margin="25dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="Из"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/from_pick"
-        app:layout_constraintTop_toTopOf="@id/from_pick"
-        app:layout_constraintBottom_toBottomOf="@id/from_pick"/>
-
     <NumberPicker
         android:id="@+id/from_pick"
         android:layout_width="wrap_content"

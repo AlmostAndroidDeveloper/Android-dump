@@ -1,10 +1,13 @@
 package com.example.scalecalc;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -20,7 +23,21 @@ TextView resultText;
         setContentView(R.layout.activity_main);
         initializeComponents();
         setListenersForChange();
+        copyTextByClick(this);
     }
+
+    private void copyTextByClick(final Context context) {
+        resultText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("", resultText.getText().toString());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(context, "Text copied",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     private void setListenersForChange() {
         from.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
@@ -63,4 +80,5 @@ TextView resultText;
         input = findViewById(R.id.edit_number);
         resultText = findViewById(R.id.result_txt);
     }
+
 }
