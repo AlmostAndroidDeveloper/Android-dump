@@ -38,18 +38,17 @@ TextView resultText;
         });
     }
 
-
     private void setListenersForChange() {
         from.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                resultText.setText(Converter.calculate(input.getText().toString(), from.getValue(), to.getValue()));
+                calculateResult();
             }
         });
         to.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                resultText.setText(Converter.calculate(input.getText().toString(), from.getValue(), to.getValue()));
+                calculateResult();
             }
         });
         input.addTextChangedListener(new TextWatcher() {
@@ -60,7 +59,7 @@ TextView resultText;
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                resultText.setText(Converter.calculate(input.getText().toString(), from.getValue(), to.getValue()));
+                calculateResult();
             }
 
             @Override
@@ -70,15 +69,23 @@ TextView resultText;
         });
     }
 
+    private void calculateResult() {
+        resultText.setText(Converter.calculate(input.getText().toString(), from.getValue(), to.getValue()));
+    }
+
     private void initializeComponents() {
         from = findViewById(R.id.from_pick);
         from.setMinValue(2);
-        from.setMaxValue(36);
+        from.setMaxValue(41);
+        from.setValue(16);
         to = findViewById(R.id.to_pick);
         to.setMinValue(2);
-        to.setMaxValue(36);
+        to.setMaxValue(41);
+        to.setValue(10);
         input = findViewById(R.id.edit_number);
+        input.setText("ff");
         resultText = findViewById(R.id.result_txt);
+        calculateResult();
     }
 
 }
