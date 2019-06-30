@@ -1,4 +1,5 @@
 package com.example.scalecalc;
+
 import java.math.BigInteger;
 
 public class Converter {

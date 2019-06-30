@@ -14,9 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-NumberPicker from, to;
-EditText input;
-TextView resultText;
+    NumberPicker from, to;
+    EditText input;
+    TextView resultText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +34,7 @@ TextView resultText;
                 ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("", resultText.getText().toString());
                 clipboard.setPrimaryClip(clip);
-                Toast.makeText(context, "Текст скопирован в буфер обмена",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Текст скопирован в буфер обмена", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -83,7 +84,6 @@ TextView resultText;
         to.setMaxValue(41);
         to.setValue(10);
         input = findViewById(R.id.edit_number);
-        input.setText("ff");
         resultText = findViewById(R.id.result_txt);
         calculateResult();
     }
