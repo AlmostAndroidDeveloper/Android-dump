@@ -1,44 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/background">
 
     <TextView
         android:id="@+id/question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:text="Была ли Ваша карта в данной колоде?"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/no_btn"
-        android:gravity="center"
         android:layout_margin="20dp"
-        />
+        android:gravity="center"
+        android:text="Была ли Ваша карта в данной стопке?"
+        android:textAllCaps="true"
+        android:textColor="#000"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/no_btn"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/yes_btn"
         android:layout_width="150dp"
         android:layout_height="50dp"
+        android:background="@drawable/btn_back"
         android:text="да"
-        android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/no_btn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/question"
-        />
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@id/show_again_btn"
+        app:layout_constraintLeft_toLeftOf="@id/show_again_btn"
+        app:layout_constraintTop_toBottomOf="@id/question" />
 
     <Button
         android:id="@+id/no_btn"
         android:layout_width="150dp"
         android:layout_height="50dp"
+        android:background="@drawable/btn_back"
         android:text="нет"
-        android:textSize="20sp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/yes_btn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/question"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@id/yes_btn"
+        app:layout_constraintRight_toRightOf="@id/show_again_btn"
+        app:layout_constraintTop_toTopOf="@id/yes_btn" />
 
-        />
+    <Button
+        android:id="@+id/show_again_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="25dp"
+        android:background="@drawable/btn_back"
+        android:text="показать еще раз"
+        android:textSize="25sp"
+        app:layout_constraintTop_toBottomOf="@id/yes_btn" />
+
 
 </android.support.constraint.ConstraintLayout>

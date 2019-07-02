@@ -9,13 +9,25 @@ import android.widget.Button;
 import java.util.Objects;
 
 public class QuestionActivity extends AppCompatActivity {
-    Button yesBtn, noBtn;
+    Button yesBtn, noBtn, showAgainBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_question);
         setYesNoButtons();
+        setShowAgainButton();
+    }
+
+    private void setShowAgainButton() {
+        showAgainBtn = findViewById(R.id.show_again_btn);
+        showAgainBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+        });
     }
 
     private void setYesNoButtons() {

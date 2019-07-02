@@ -4,29 +4,174 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".PredictActivity">
 
     <TextView
-        android:id="@+id/main_text"
-        android:layout_width="match_parent"
+        android:id="@+id/primary_txt"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:text="@string/rules"
-        android:gravity="center|top"
-        android:layout_margin="20dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="15dp"
+        android:gravity="center"
+        android:text="загадайте"
+        android:textAllCaps="true"
+        android:textColor="#000"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/secondary_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="одну из этих карт"
+        android:textAllCaps="true"
+        android:textColor="#000"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="@id/primary_txt"
+        app:layout_constraintRight_toRightOf="@id/primary_txt"
+        app:layout_constraintTop_toBottomOf="@id/primary_txt" />
+
+    <ImageView
+        android:id="@+id/image1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/card_6"
+        app:layout_constraintBottom_toTopOf="@id/image6"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.17"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/image2"
+        app:layout_constraintTop_toBottomOf="@id/secondary_txt"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.21" />
+
+    <ImageView
+        android:id="@+id/image2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/card_7"
+        app:layout_constraintBottom_toTopOf="@id/image6"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.17"
+        app:layout_constraintLeft_toRightOf="@id/image1"
+        app:layout_constraintRight_toLeftOf="@id/image3"
+        app:layout_constraintTop_toBottomOf="@id/secondary_txt"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.21" />
+
+    <ImageView
+        android:id="@+id/image3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/card_8"
+        app:layout_constraintBottom_toTopOf="@id/image6"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.17"
+        app:layout_constraintLeft_toRightOf="@id/image2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/secondary_txt"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.21" />
+
+    <ImageView
+        android:id="@+id/image4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/card_9"
+        app:layout_constraintBottom_toTopOf="@id/image9"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.17"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/image5"
+        app:layout_constraintTop_toBottomOf="@id/image1"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.21" />
+
+    <ImageView
+        android:id="@+id/image5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/card_10"
+        app:layout_constraintBottom_toTopOf="@id/image9"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.17"
+        app:layout_constraintLeft_toRightOf="@id/image4"
+        app:layout_constraintRight_toLeftOf="@id/image6"
+        app:layout_constraintTop_toBottomOf="@id/image2"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.21" />
+
+    <ImageView
+        android:id="@+id/image6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/card_jack"
+        app:layout_constraintBottom_toTopOf="@id/image9"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.17"
+        app:layout_constraintLeft_toRightOf="@id/image5"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image3"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.21" />
+
+    <ImageView
+        android:id="@+id/image7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/card_queen"
         app:layout_constraintBottom_toTopOf="@id/confirm_btn"
-        />
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.17"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/image8"
+        app:layout_constraintTop_toBottomOf="@id/image4"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.21" />
+
+    <ImageView
+        android:id="@+id/image8"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/card_king"
+        app:layout_constraintBottom_toTopOf="@id/confirm_btn"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.17"
+        app:layout_constraintLeft_toRightOf="@id/image7"
+        app:layout_constraintRight_toLeftOf="@id/image9"
+        app:layout_constraintTop_toBottomOf="@id/image5"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.21" />
+
+    <ImageView
+        android:id="@+id/image9"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/card_ace"
+        app:layout_constraintBottom_toTopOf="@id/confirm_btn"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.17"
+        app:layout_constraintLeft_toRightOf="@id/image8"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image6"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.21" />
 
     <Button
         android:id="@+id/confirm_btn"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/btn_back"
         android:text="готово"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_text"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:textSize="55sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>
