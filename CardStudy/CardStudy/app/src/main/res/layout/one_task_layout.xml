@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="50dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/question_text"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:layout_weight="15"
+        android:background="@drawable/btn_shape" />
+
+    <TextView
+        android:id="@+id/answer_text"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:layout_weight="15"
+        android:background="@drawable/btn_shape" />
+
+    <Button
+        android:id="@+id/del_btn"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:background="@drawable/btn_shape"
+        android:text="удалить"
+        android:textSize="10sp"/>
+</LinearLayout>

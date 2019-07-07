@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -25,6 +26,7 @@ public class ResultActivity extends AppCompatActivity {
     private void setGuessedCardImage() {
         guessedCardImg = findViewById(R.id.guessed_card_img);
         int imgId = getIntent().getIntExtra("id", 0);
+        Log.d("fuck", String.valueOf(imgId));
         if (imgId == 0) setUnknownResult();
         else guessedCardImg.setImageResource(imgId);
         guessedCardImg.startAnimation(AnimationUtils.loadAnimation(this, R.anim.card_appear));
@@ -35,12 +37,12 @@ public class ResultActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setMessage(getString(R.string.wrong_answers))
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                setResult(2);
-                finish();
-            }
-        }).create().show();
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setResult(2);
+                        finish();
+                    }
+                }).create().show();
     }
 
     private void setResetButton() {

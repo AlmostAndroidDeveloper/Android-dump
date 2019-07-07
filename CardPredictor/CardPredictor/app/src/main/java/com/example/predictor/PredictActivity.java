@@ -141,6 +141,7 @@ public class PredictActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             startActivityForResult(new Intent(getApplicationContext(), ResultActivity.class) // выводим угаданную карту в новом окне
                     .putExtra("id", showCard(cardNum)), 1);
+            cardNum=3;
         }
     }
 
@@ -161,6 +162,7 @@ public class PredictActivity extends AppCompatActivity {
             case RESULT_OK:
                 if (data == null) return;
                 cardNum += data.getIntExtra("num", 0); // если карта была в стопке, прибавить числовое значение этой стопки
+                Log.d("fuck", "added to number: " + data.getIntExtra("num", 0));
                 break;
             case RESULT_CANCELED:
                 needToShowAgain = true; // показать текущую стопку еще раз, если нажата кнопка показа заново
