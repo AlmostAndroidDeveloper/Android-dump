@@ -1,9 +1,11 @@
 package com.example.cardstudying;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +14,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.concurrent.TimeUnit;
+
 public class AddCardsActivity extends AppCompatActivity {
 
     DBHelper dbhelper;
@@ -19,14 +23,9 @@ public class AddCardsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        GetCursorTask mTask = new GetCursorTask();
+        mTask.execute();
         setContentView(R.layout.activity_add_cards);
-        dbhelper = new DBHelper(this);
-        SQLiteDatabase db = dbhelper.getReadableDatabase();
-        Cursor c = db.rawQuery("select * from cardsTable", new String[]{});
-        if (c.moveToNext())
-            makeCardsList(c);
-        db.close();
-        makeAddButton();
     }
 
     private void makeAddButton() {
@@ -46,7 +45,7 @@ public class AddCardsActivity extends AppCompatActivity {
             final View layout = getLayoutInflater().inflate(R.layout.one_task_layout, null, false);
             layout.setId(c.getInt(c.getColumnIndex("id")));
 
-            //TextView id = makeTextView(layout, R.id.id_text, String.valueOf(c.getInt(c.getColumnIndex("id"))));
+            TextView level = makeTextView(layout, R.id.level_text, String.valueOf(c.getInt(c.getColumnIndex("level"))));
             TextView question = makeTextView(layout, R.id.question_text, c.getString(c.getColumnIndex("question")));
             TextView answer = makeTextView(layout, R.id.answer_text, c.getString(c.getColumnIndex("answer")));
             Button delBtn = makeDeleteButton(mainLayout, layout);
@@ -89,10 +88,56 @@ public class AddCardsActivity extends AppCompatActivity {
 
         cv.put("question", data.getStringExtra("question"));
         cv.put("answer", data.getStringExtra("answer"));
+        cv.put("level", 0);
         long rowID = db.insert("cardsTable", null, cv);
 
-        Cursor c = db.rawQuery("select * from cardsTable", new String[]{});
+        Cursor c = db.rawQuery("select * from cardsTable ORDER BY level, question", new String[]{});
         if (c.moveToNext())
             makeCardsList(c);
     }
+
+    class GetCursorTask extends AsyncTask<Void, Void, Void> {
+
+        private Cursor c;
+        ProgressDialog pd;
+        SQLiteDatabase db;
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            dbhelper = new DBHelper(getApplicationContext());
+            db = dbhelper.getReadableDatabase();
+            c = db.rawQuery("select * from cardsTable ORDER BY level DESC, question", new String[]{});
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    pd = new ProgressDialog(AddCardsActivity.this);
+                    pd.setMessage("Загрузка");
+                    pd.show();
+                }
+            });
+
+        }
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (c.moveToNext())
+                        makeCardsList(c);
+                    makeAddButton();
+                    pd.cancel();
+                }
+            });
+            c.close();
+            db.close();
+        }
+    }
+
 }

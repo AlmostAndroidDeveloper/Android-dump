@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">CardStudying</string>
-    <string name="values">maintain=поддерживать, сохранять;
+    <string name="values">
         confess=признавать;
         strip off=сдирать, соскабливать;
         embarrass=беспокоить;
@@ -9,6 +9,7 @@
         mumble=бормотание;
         adduce=приводить, ссылаться;
         pile=куча, груда;
+        maintain=поддерживать, сохранять;
         matriculate=поступить в высшее уч. заведение;
         vulnerability=уязвимость;
         surveillance=надзор, наблюдение;

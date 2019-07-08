@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 ContentValues cv = new ContentValues();
                 cv.put("question", splitted[0]);
                 cv.put("answer", splitted[1]);
+                cv.put("level", 0);
                 db.insert("cardsTable", null, cv);
             }
             db.close();

@@ -17,7 +17,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("create table cardsTable("
                 + "id integer primary key autoincrement,"
                 + "question text,"
-                + "answer text" + ");");
+                + "answer text,"
+                + "level integer" + ");");
     }
 
     @Override
