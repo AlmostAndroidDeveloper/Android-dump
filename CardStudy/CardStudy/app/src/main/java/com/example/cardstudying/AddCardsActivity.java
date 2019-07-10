@@ -123,7 +123,6 @@ public class AddCardsActivity extends AppCompatActivity {
 
         }
 
-
         @Override
         protected void onPostExecute(Void aVoid) {
             runOnUiThread(new Runnable() {

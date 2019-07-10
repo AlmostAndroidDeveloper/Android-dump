@@ -2,10 +2,12 @@ package com.example.cardstudying;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,21 +15,69 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
     Button btnStart, btnAdd;
     SharedPreferences prefs;
     DBHelper dbHelper;
+    String[] mainMenuPhrases;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE);
-        if (prefs.getBoolean("isFirst", true)) fillDB();
+        setPrefs();
+        getPhrasesFromRescources();
         setStartButton();
         setAddButton();
+        setInvertButton();
+        setHelpText();
         setMainCard();
+    }
+
+    private void setInvertButton() {
+        final TextView txtInvert = findViewById(R.id.invert_cards);
+        txtInvert.setText(prefs.getBoolean("invert", false) ? "ПЕРЕВОД->СЛОВО" : "СЛОВО->ПЕРЕВОД");
+        txtInvert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean invert = prefs.getBoolean("invert", false);
+                invert = !invert;
+                txtInvert.setText(invert ? "ПЕРЕВОД->СЛОВО" : "СЛОВО->ПЕРЕВОД");
+                prefs.edit().putBoolean("invert", invert).apply();
+            }
+        });
+    }
+
+    private void setHelpText() {
+        findViewById(R.id.help_txt).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Справка")
+                        .setMessage(getResources().getString(R.string.help))
+                        .setCancelable(false)
+                        .setNegativeButton("Понятно",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
+    }
+
+    private void getPhrasesFromRescources() {
+        mainMenuPhrases = getResources().getString(R.string.phrases).split(";");
+    }
+
+    private void setPrefs() {
+        prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        if (prefs.getBoolean("isFirst", true)) fillDB();
     }
 
     private void setMainCard() {
@@ -35,9 +85,11 @@ public class MainActivity extends AppCompatActivity {
         card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                card.setText(mainMenuPhrases[new Random().nextInt(mainMenuPhrases.length)]);
                 card.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.card_flip));
             }
         });
+        card.performClick();
     }
 
     private void fillDB() {
@@ -63,6 +115,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), GameActivity.class));
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setMainCard();
     }
 
     class FillDataBaseTask extends AsyncTask<Void, Void, Void> {

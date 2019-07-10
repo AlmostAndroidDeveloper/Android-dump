@@ -1,8 +1,12 @@
 package com.example.cardstudying;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +18,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     TextView card;
     DBHelper dbHelper;
     String question, answer;
+    SharedPreferences prefs;
     int id;
 
     @Override
@@ -21,7 +26,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         card = findViewById(R.id.card);
+        prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE);
         setNewCard();
+        setHelpText();
         setMarkButtons();
     }
 
@@ -44,11 +51,32 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         c.close();
     }
 
+    private void setHelpText() {
+        findViewById(R.id.help_txt).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
+                builder.setTitle("Справка")
+                        .setMessage(getResources().getString(R.string.help))
+                        .setCancelable(false)
+                        .setNegativeButton("Понятно",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
+    }
+
     private void setMainTxt(Cursor c) {
         id = c.getInt(c.getColumnIndex("id"));
         question = c.getString(c.getColumnIndex("question"));
         answer = c.getString(c.getColumnIndex("answer"));
-        card.setText(question);
+        boolean invert = prefs.getBoolean("invert",false);
+        card.setText(invert ? answer : question);
         card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -7,13 +7,37 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/invert_cards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:textSize="18sp"
+        android:textColor="#000"
+        android:background="@drawable/btn_shape"
+        />
+
+    <TextView
+        android:id="@+id/help_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="20dp"
+        android:textSize="40sp"
+        android:text="\?"
+        android:textColor="#000"
+        android:textStyle="bold"/>
+
+    <TextView
         android:id="@+id/card"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/card_shape"
         android:gravity="center"
         android:textSize="30sp"
-        android:text="Мне просто было лень нарезать сотню карточек для того чтобы выучить слова"
         app:layout_constraintBottom_toTopOf="@id/start_btn"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.5"
