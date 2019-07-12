@@ -6,18 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".AddCardsActivity">
 
-    <ScrollView
+    <GridView
+        android:id="@+id/main_grid"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/main_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-        </LinearLayout>
-    </ScrollView>
+        android:layout_height="wrap_content" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_btn"

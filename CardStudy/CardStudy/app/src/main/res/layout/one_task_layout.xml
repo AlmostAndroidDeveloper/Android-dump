@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:padding="10dp"
         android:layout_weight="1"
-        android:background="@drawable/btn_shape" />
+        android:background="@drawable/common_shape" />
 
     <TextView
         android:id="@+id/question_text"
@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:padding="10dp"
         android:layout_weight="15"
-        android:background="@drawable/btn_shape" />
+        android:background="@drawable/common_shape" />
 
     <TextView
         android:id="@+id/answer_text"
@@ -27,14 +27,14 @@
         android:layout_height="match_parent"
         android:padding="10dp"
         android:layout_weight="15"
-        android:background="@drawable/btn_shape" />
+        android:background="@drawable/common_shape" />
 
     <Button
         android:id="@+id/del_btn"
         android:layout_width="50dp"
         android:layout_height="match_parent"
         android:layout_weight="3"
-        android:background="@drawable/btn_shape"
+        android:background="@drawable/common_shape"
         android:text="удалить"
         android:textSize="10sp"/>
 </LinearLayout>

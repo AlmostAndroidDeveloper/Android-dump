@@ -32,6 +32,35 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         setMarkButtons();
     }
 
+    @Override
+    public void onClick(View v) {
+        int level = 0;
+        switch (v.getId()) {
+            case R.id.btn1:
+                level = 1;
+                break;
+            case R.id.btn2:
+                level = 2;
+                break;
+            case R.id.btn3:
+                level = 3;
+                break;
+            case R.id.btn4:
+                level = 4;
+                break;
+            case R.id.btn5:
+                level = 5;
+                break;
+        }
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("question", question);
+        cv.put("answer", answer);
+        cv.put("level", level);
+        db.update("cardsTable", cv, "id = ?", new String[]{String.valueOf(id)});
+        db.close();
+        setNewCard();
+    }
 
     private void setMarkButtons() {
         findViewById(R.id.btn1).setOnClickListener(this);
@@ -87,34 +116,4 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-
-    @Override
-    public void onClick(View v) {
-        int level = 0;
-        switch (v.getId()) {
-            case R.id.btn1:
-                level = 1;
-                break;
-            case R.id.btn2:
-                level = 2;
-                break;
-            case R.id.btn3:
-                level = 3;
-                break;
-            case R.id.btn4:
-                level = 4;
-                break;
-            case R.id.btn5:
-                level = 5;
-                break;
-        }
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put("question", question);
-        cv.put("answer", answer);
-        cv.put("level", level);
-        db.update("cardsTable", cv, "id = ?", new String[]{String.valueOf(id)});
-        db.close();
-        setNewCard();
-    }
 }

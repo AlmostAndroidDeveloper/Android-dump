@@ -1,10 +1,8 @@
 package com.example.cardstudying;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 public class DBHelper extends SQLiteOpenHelper {
 

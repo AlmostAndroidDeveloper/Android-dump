@@ -12,7 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -38,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setInvertButton() {
-        final TextView txtInvert = findViewById(R.id.invert_cards);
+        /*final TextView txtInvert = findViewById(R.id.invert_cards);
         txtInvert.setText(prefs.getBoolean("invert", false) ? "ПЕРЕВОД->СЛОВО" : "СЛОВО->ПЕРЕВОД");
         txtInvert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +50,25 @@ public class MainActivity extends AppCompatActivity {
                 invert = !invert;
                 txtInvert.setText(invert ? "ПЕРЕВОД->СЛОВО" : "СЛОВО->ПЕРЕВОД");
                 prefs.edit().putBoolean("invert", invert).apply();
+            }
+        });*/
+        String[] data = {"СЛОВО->ПЕРЕВОД", "ПЕРЕВОД->СЛОВО"};
+        ArrayAdapter<String> sAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, data);
+        sAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        Spinner spinner = findViewById(R.id.invert_cards);
+        spinner.setAdapter(sAdapter);
+        spinner.setSelection(prefs.getBoolean("invert", false) ? 1 : 0);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                boolean invert = position != 0;
+                prefs.edit().putBoolean("invert", invert).apply();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }

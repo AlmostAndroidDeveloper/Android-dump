@@ -11,14 +11,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class AddCardsActivity extends AppCompatActivity {
 
     DBHelper dbhelper;
+    GridView mainGrid;
+    ArrayList<Card> cards = new ArrayList<>();
+    CardAdapter cardAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,45 +43,23 @@ public class AddCardsActivity extends AppCompatActivity {
     }
 
     private void makeCardsList(Cursor c) {
-        final LinearLayout mainLayout = findViewById(R.id.main_layout);
-        mainLayout.removeAllViews();
+        fillCardsData(c);
+        mainGrid = findViewById(R.id.main_grid);
+        cardAdapter = new CardAdapter(this, cards);
+        mainGrid.setAdapter(cardAdapter);
+        mainGrid.setVerticalSpacing(5);
+        mainGrid.setHorizontalSpacing(5);
+    }
 
+    private void fillCardsData(Cursor c) {
         do {
-            final View layout = getLayoutInflater().inflate(R.layout.one_task_layout, null, false);
-            layout.setId(c.getInt(c.getColumnIndex("id")));
-
-            TextView level = makeTextView(layout, R.id.level_text, String.valueOf(c.getInt(c.getColumnIndex("level"))));
-            TextView question = makeTextView(layout, R.id.question_text, c.getString(c.getColumnIndex("question")));
-            TextView answer = makeTextView(layout, R.id.answer_text, c.getString(c.getColumnIndex("answer")));
-            Button delBtn = makeDeleteButton(mainLayout, layout);
-
-            mainLayout.addView(layout);
-        }
-        while (c.moveToNext());
+            cards.add(new Card(
+                    c.getInt(c.getColumnIndex("level")),
+                    c.getString(c.getColumnIndex("question")),
+                    c.getString(c.getColumnIndex("answer")),
+                    c.getInt(c.getColumnIndex("id"))));
+        } while (c.moveToNext());
         c.close();
-    }
-
-    private Button makeDeleteButton(final LinearLayout mainLayout, final View layout) {
-        Button button = layout.findViewById(R.id.del_btn);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (String.valueOf(layout.getId()).equalsIgnoreCase("")) {
-                    return;
-                }
-                SQLiteDatabase db = dbhelper.getWritableDatabase();
-                db.delete("cardsTable", "id = " + layout.getId(), new String[]{});
-                mainLayout.removeView(layout);
-                db.close();
-            }
-        });
-        return button;
-    }
-
-    private TextView makeTextView(View layout, int viewId, String textToSet) {
-        TextView textView = layout.findViewById(viewId);
-        textView.setText(textToSet);
-        return textView;
     }
 
     @Override
