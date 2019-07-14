@@ -10,13 +10,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class AddCardsActivity extends AppCompatActivity {
 
@@ -42,16 +38,20 @@ public class AddCardsActivity extends AppCompatActivity {
         });
     }
 
-    private void makeCardsList(Cursor c) {
-        fillCardsData(c);
-        mainGrid = findViewById(R.id.main_grid);
+    private void makeCardsGrid(Cursor c) {
+        fillCardsArray(c);
         cardAdapter = new CardAdapter(this, cards);
+        setGridView();
+    }
+
+    private void setGridView() {
+        mainGrid = findViewById(R.id.main_grid);
         mainGrid.setAdapter(cardAdapter);
         mainGrid.setVerticalSpacing(5);
         mainGrid.setHorizontalSpacing(5);
     }
 
-    private void fillCardsData(Cursor c) {
+    private void fillCardsArray(Cursor c) {
         do {
             cards.add(new Card(
                     c.getInt(c.getColumnIndex("level")),
@@ -76,7 +76,7 @@ public class AddCardsActivity extends AppCompatActivity {
 
         Cursor c = db.rawQuery("select * from cardsTable ORDER BY level, question", new String[]{});
         if (c.moveToNext())
-            makeCardsList(c);
+            makeCardsGrid(c);
     }
 
     class GetCursorTask extends AsyncTask<Void, Void, Void> {
@@ -112,7 +112,7 @@ public class AddCardsActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (c.moveToNext())
-                        makeCardsList(c);
+                        makeCardsGrid(c);
                     makeAddButton();
                     pd.cancel();
                 }
@@ -121,5 +121,4 @@ public class AddCardsActivity extends AppCompatActivity {
             db.close();
         }
     }
-
 }

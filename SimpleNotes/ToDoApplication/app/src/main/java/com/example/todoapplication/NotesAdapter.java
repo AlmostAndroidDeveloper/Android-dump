@@ -1,4 +1,4 @@
-package com.example.cardstudying;
+package com.example.todoapplication;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,30 +7,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class CardAdapter extends BaseAdapter {
+public class NotesAdapter extends BaseAdapter {
 
+    private ArrayList<Note> notes;
     private LayoutInflater layoutInflater;
-    private ArrayList<Card> cards;
     private DBHelper dbHelper;
 
-    CardAdapter(Context context, ArrayList<Card> cards) {
-        this.cards = cards;
-        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    NotesAdapter(Context context, ArrayList<Note> notes) {
+        this.notes = notes;
         this.dbHelper = new DBHelper(context);
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return cards.size();
+        return notes.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return cards.get(position);
+        return notes.get(position);
     }
 
     @Override
@@ -43,17 +42,16 @@ public class CardAdapter extends BaseAdapter {
         View view = convertView;
         if (view == null) view = layoutInflater.inflate(R.layout.one_task_layout, parent, false);
 
-        final Card card = cards.get(position);
+       final Note note = notes.get(position);
 
-        ((TextView) view.findViewById(R.id.level_text)).setText(String.valueOf(card.level));
-        ((TextView) view.findViewById(R.id.question_text)).setText(card.question);
-        ((TextView) view.findViewById(R.id.answer_text)).setText(card.answer);
+        ((TextView)view.findViewById(R.id.id_text)).setText(String.valueOf(position + 1));
+        ((TextView)view.findViewById(R.id.task_text)).setText(note.text);
         view.findViewById(R.id.del_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
-                db.delete("cardsTable", "id = " + card.id, new String[]{});
-                cards.remove(position);
+                db.delete("tasks","id = " + note.id, new String[]{});
+                notes.remove(position);
                 db.close();
                 notifyDataSetChanged();
             }

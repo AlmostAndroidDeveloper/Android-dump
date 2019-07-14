@@ -3,10 +3,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
-    <GridView
-        android:id="@+id/main_grid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </GridView>
+    android:orientation="horizontal">
+    <Button
+        android:id="@+id/btnItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/items"
+        android:onClick="onclick">
+    </Button>
+    <Button
+        android:id="@+id/btnAdapter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/adapter"
+        android:onClick="onclick">
+    </Button>
+    <Button
+        android:id="@+id/btnCursor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cursor"
+        android:onClick="onclick">
+    </Button>
 </LinearLayout>

@@ -12,7 +12,6 @@ import android.widget.ImageView;
 
 public class ResultActivity extends AppCompatActivity {
 
-    Button resetBtn;
     ImageView guessedCardImg;
 
     @Override
@@ -26,14 +25,17 @@ public class ResultActivity extends AppCompatActivity {
     private void setGuessedCardImage() {
         guessedCardImg = findViewById(R.id.guessed_card_img);
         int imgId = getIntent().getIntExtra("id", 0);
-        Log.d("fuck", String.valueOf(imgId));
         if (imgId == 0) setUnknownResult();
         else guessedCardImg.setImageResource(imgId);
         guessedCardImg.startAnimation(AnimationUtils.loadAnimation(this, R.anim.card_appear));
     }
 
     private void setUnknownResult() {
-        guessedCardImg.setImageResource(R.drawable.card_unknown);
+        setUnknownImage();
+        showAlertDialog();
+    }
+
+    private void showAlertDialog() {
         new AlertDialog.Builder(this)
                 .setMessage(getString(R.string.wrong_answers))
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -44,9 +46,12 @@ public class ResultActivity extends AppCompatActivity {
                     }
                 }).create().show();
     }
+    private void setUnknownImage() {
+        guessedCardImg.setImageResource(R.drawable.card_unknown);
+    }
 
     private void setResetButton() {
-        resetBtn = findViewById(R.id.restart_btn);
+        Button resetBtn = findViewById(R.id.restart_btn);
         resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,5 +59,9 @@ public class ResultActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }

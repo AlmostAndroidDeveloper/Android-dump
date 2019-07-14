@@ -2,8 +2,8 @@ package com.example.scalecalc;
 
 import java.math.BigInteger;
 
-public class Converter {
-    static String alphabet = "0123456789abcdefghijklmnopqrstuvwxyz .!',"; // current = 41
+class Converter {
+    private static String alphabet = "0123456789abcdefghijklmnopqrstuvwxyz .!',"; // current = 41
 
     static String calculate(String number, int from, int to) {
         return fromDecimal(toDecimal(number, from), to);

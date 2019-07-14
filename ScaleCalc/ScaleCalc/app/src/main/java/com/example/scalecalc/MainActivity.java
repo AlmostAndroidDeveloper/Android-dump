@@ -23,11 +23,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initializeComponents();
+        calculateResult();
         setListenersForChange();
-        copyTextByClick(this);
+        setCopyingTextByClick(this);
     }
 
-    private void copyTextByClick(final Context context) {
+    private void setCopyingTextByClick(final Context context) {
         resultText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,18 +41,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setListenersForChange() {
-        from.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                calculateResult();
-            }
-        });
-        to.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                calculateResult();
-            }
-        });
+        handleValueChange(from);
+        handleValueChange(to);
+        handleValueChange(input);
+    }
+
+    private void handleValueChange(EditText input) {
         input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -70,22 +65,46 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void handleValueChange(NumberPicker numberPicker) {
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                calculateResult();
+            }
+        });
+    }
+
     private void calculateResult() {
         resultText.setText(Converter.calculate(input.getText().toString(), from.getValue(), to.getValue()));
     }
 
     private void initializeComponents() {
-        from = findViewById(R.id.from_pick);
-        from.setMinValue(2);
-        from.setMaxValue(41);
-        from.setValue(16);
+        setInputNumberpicker();
+        setOutputNumberpicker();
+        setInputField();
+        setResultField();
+    }
+
+    private void setResultField() {
+        resultText = findViewById(R.id.result_txt);
+    }
+
+    private void setInputField() {
+        input = findViewById(R.id.edit_number);
+    }
+
+    private void setOutputNumberpicker() {
         to = findViewById(R.id.to_pick);
         to.setMinValue(2);
         to.setMaxValue(41);
         to.setValue(10);
-        input = findViewById(R.id.edit_number);
-        resultText = findViewById(R.id.result_txt);
-        calculateResult();
+    }
+
+    private void setInputNumberpicker() {
+        from = findViewById(R.id.from_pick);
+        from.setMinValue(2);
+        from.setMaxValue(41);
+        from.setValue(16);
     }
 
 }

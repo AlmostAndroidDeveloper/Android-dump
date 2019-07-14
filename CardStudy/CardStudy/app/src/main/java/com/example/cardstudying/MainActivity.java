@@ -2,12 +2,10 @@ package com.example.cardstudying;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnStart, btnAdd;
     SharedPreferences prefs;
-    DBHelper dbHelper;
     String[] mainMenuPhrases;
 
     @Override
@@ -32,32 +29,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setPrefs();
+        fillDB();
         getPhrasesFromRescources();
-        setStartButton();
-        setAddButton();
-        setInvertButton();
-        setHelpText();
+        setGameActivityButton();
+        setAddCardsActivityButton();
+        setCardsMode();
+        setHelpButton();
         setMainCard();
     }
 
-    private void setInvertButton() {
-        /*final TextView txtInvert = findViewById(R.id.invert_cards);
-        txtInvert.setText(prefs.getBoolean("invert", false) ? "ПЕРЕВОД->СЛОВО" : "СЛОВО->ПЕРЕВОД");
-        txtInvert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean invert = prefs.getBoolean("invert", false);
-                invert = !invert;
-                txtInvert.setText(invert ? "ПЕРЕВОД->СЛОВО" : "СЛОВО->ПЕРЕВОД");
-                prefs.edit().putBoolean("invert", invert).apply();
-            }
-        });*/
+    private void setCardsMode() {
         String[] data = {"СЛОВО->ПЕРЕВОД", "ПЕРЕВОД->СЛОВО"};
         ArrayAdapter<String> sAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, data);
         sAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        setSpinner(sAdapter);
+    }
 
+    private void setSpinner(ArrayAdapter<String> spinnerAdapter) {
         Spinner spinner = findViewById(R.id.invert_cards);
-        spinner.setAdapter(sAdapter);
+        spinner.setAdapter(spinnerAdapter);
         spinner.setSelection(prefs.getBoolean("invert", false) ? 1 : 0);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -73,22 +63,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setHelpText() {
+    private void setHelpButton() {
         findViewById(R.id.help_txt).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Справка")
-                        .setMessage(getResources().getString(R.string.help))
-                        .setCancelable(false)
-                        .setNegativeButton("Понятно",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-                AlertDialog alert = builder.create();
-                alert.show();
+                HelpDialog.show(MainActivity.this);
             }
         });
     }
@@ -99,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setPrefs() {
         prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE);
-        if (prefs.getBoolean("isFirst", true)) fillDB();
     }
 
     private void setMainCard() {
@@ -115,11 +93,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fillDB() {
-        new FillDataBaseTask().execute();
+        if (prefs.getBoolean("isFirst", true))
+            new FillDataBaseTask().execute();
         prefs.edit().putBoolean("isFirst", false).apply();
     }
 
-    private void setAddButton() {
+    private void setAddCardsActivityButton() {
         btnAdd = findViewById(R.id.add_btn);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setStartButton() {
+    private void setGameActivityButton() {
         btnStart = findViewById(R.id.start_btn);
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,12 +125,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class FillDataBaseTask extends AsyncTask<Void, Void, Void> {
+        DBHelper dbHelper = new DBHelper(getApplicationContext());
+        ;
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String[] allCards = getResources().getString(R.string.values).split(";");
 
         @Override
         protected Void doInBackground(Void... voids) {
-            dbHelper = new DBHelper(getApplicationContext());
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            String[] allCards = getResources().getString(R.string.values).split(";");
+            putCardsIntoDatabase();
+            return null;
+        }
+
+        private void putCardsIntoDatabase() {
             for (String card : allCards) {
                 String[] splitted = card.split("=");
                 ContentValues cv = new ContentValues();
@@ -161,9 +146,6 @@ public class MainActivity extends AppCompatActivity {
                 db.insert("cardsTable", null, cv);
             }
             db.close();
-            return null;
         }
     }
 }
-
-

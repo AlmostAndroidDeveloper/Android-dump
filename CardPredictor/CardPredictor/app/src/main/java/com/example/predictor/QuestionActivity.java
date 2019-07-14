@@ -9,7 +9,6 @@ import android.widget.Button;
 import java.util.Objects;
 
 public class QuestionActivity extends AppCompatActivity {
-    Button yesBtn, noBtn, showAgainBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +19,7 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     private void setShowAgainButton() {
-        showAgainBtn = findViewById(R.id.show_again_btn);
-        showAgainBtn.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.show_again_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setResult(RESULT_CANCELED);
@@ -31,17 +29,13 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     private void setYesNoButtons() {
-        yesBtn = findViewById(R.id.yes_btn);
-        noBtn = findViewById(R.id.no_btn);
-        yesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int power = getIntent().getIntExtra("num", 0);
-                setResult(RESULT_OK, new Intent().putExtra("num", (int) Math.pow(2, power)));
-                finish();
-            }
-        });
-        noBtn.setOnClickListener(new View.OnClickListener() {
+        setYesButton();
+        setNoButton();
+
+    }
+
+    private void setNoButton() {
+        findViewById(R.id.no_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setResult(RESULT_OK, new Intent().putExtra("num", 0));
@@ -50,8 +44,18 @@ public class QuestionActivity extends AppCompatActivity {
         });
     }
 
+    private void setYesButton() {
+        findViewById(R.id.yes_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int power = getIntent().getIntExtra("num", 0);
+                setResult(RESULT_OK, new Intent().putExtra("num", (int) Math.pow(2, power)));
+                finish();
+            }
+        });
+    }
+
     @Override
     public void onBackPressed() {
-
     }
 }

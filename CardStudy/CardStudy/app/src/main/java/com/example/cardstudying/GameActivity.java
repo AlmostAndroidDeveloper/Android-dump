@@ -2,16 +2,13 @@ package com.example.cardstudying;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener {
@@ -28,7 +25,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         card = findViewById(R.id.card);
         prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE);
         setNewCard();
-        setHelpText();
+        setHelpButton();
         setMarkButtons();
     }
 
@@ -52,14 +49,18 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 level = 5;
                 break;
         }
+        updateCardInDatabase(level);
+        setNewCard();
+    }
+
+    private void updateCardInDatabase(int newLevel) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("question", question);
         cv.put("answer", answer);
-        cv.put("level", level);
+        cv.put("level", newLevel);
         db.update("cardsTable", cv, "id = ?", new String[]{String.valueOf(id)});
         db.close();
-        setNewCard();
     }
 
     private void setMarkButtons() {
@@ -75,45 +76,32 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery("select * from cardsTable ORDER BY level, RANDOM() LIMIT 1", new String[]{});
         if (c.moveToNext())
-            setMainTxt(c);
+            setCardText(c);
         card.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.card_flip));
         c.close();
     }
 
-    private void setHelpText() {
+    private void setHelpButton() {
         findViewById(R.id.help_txt).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
-                builder.setTitle("Справка")
-                        .setMessage(getResources().getString(R.string.help))
-                        .setCancelable(false)
-                        .setNegativeButton("Понятно",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-                AlertDialog alert = builder.create();
-                alert.show();
+                HelpDialog.show(GameActivity.this);
             }
         });
     }
 
-    private void setMainTxt(Cursor c) {
+    private void setCardText(Cursor c) {
         id = c.getInt(c.getColumnIndex("id"));
         question = c.getString(c.getColumnIndex("question"));
         answer = c.getString(c.getColumnIndex("answer"));
-        boolean invert = prefs.getBoolean("invert",false);
+        boolean invert = prefs.getBoolean("invert", false);
         card.setText(invert ? answer : question);
         card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 card.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.card_flip));
-                if (card.getText().equals(question)) card.setText(answer);
-                else card.setText(question);
+                card.setText(card.getText().equals(question) ? answer : question);
             }
         });
     }
-
 }

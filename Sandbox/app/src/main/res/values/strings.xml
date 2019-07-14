@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Sandbox</string>
-    <string name="box">Sandbox</string>
+    <string name="items">Items</string>
+    <string name="adapter">Adapter</string>
+    <string name="cursor">Cursor</string>
+    <string name="ok">OK</string>
 </resources>

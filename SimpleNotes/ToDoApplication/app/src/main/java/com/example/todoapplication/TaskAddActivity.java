@@ -11,12 +11,14 @@ import android.widget.EditText;
 
 public class TaskAddActivity extends AppCompatActivity {
     EditText editTask;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_add);
+        setEditField();
+    }
+
+    private void setEditField() {
         editTask = findViewById(R.id.edit_task);
         editTask.performClick();
     }
@@ -34,11 +36,14 @@ public class TaskAddActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.confirm:
-                setResult(RESULT_OK, new Intent().putExtra("task", editTask.getText().toString()));
-                finish();
+                finishWithGoodResult();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void finishWithGoodResult() {
+        setResult(RESULT_OK, new Intent().putExtra("task", editTask.getText().toString()));
+        finish();
+    }
 }
